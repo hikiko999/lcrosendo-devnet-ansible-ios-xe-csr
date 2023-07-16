@@ -1,0 +1,24 @@
+---
+  - name: CHANGE IP
+    hosts: ios_xe
+    connection: network_cli
+    gather_facts: no
+
+    tasks:
+      - name: IP ADDRESS COMMAND
+        ios_config:
+          parents: interface GigabitEthernet1
+          commands: 
+            - ip address 10.20.30.40 255.255.255.0
+            - description ANSIBLE_TESTED
+            - no shutdown 
+
+      - name: SHOW IP RUN COMMAND
+        ios_command:
+          commands: 
+            - show run | section GigabitEthernet1
+        register: output
+      
+      - name: RESULT IP RUN COMMAND
+        debug: 
+          var: output['stdout']

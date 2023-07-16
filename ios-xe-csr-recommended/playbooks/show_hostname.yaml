@@ -1,0 +1,16 @@
+---
+  - name: SHOW HOSTNAME
+    hosts: ios_xe
+    connection: network_cli
+    gather_facts: no
+
+    tasks:
+      - name: SHOW HOSTNAME COMMAND
+        ios_command:
+          commands: 
+            - show run | include hostname
+        register: output
+      
+      - name: RESULT HOSTNAME 
+        debug: 
+          var: output['stdout']

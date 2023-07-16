@@ -1,0 +1,43 @@
+---
+  - name: CHANGE MULTIPLE LOOPBACK INTEFACES
+    hosts: ios_xe
+    connection: network_cli
+    gather_facts: no
+    
+    tasks:
+      - name: GATHER FACTS
+        ios_facts:
+          gather_subset: min
+          gather_network_resources: interfaces
+        register: output
+
+      - name: IP ADDRESS COMMAND
+        ios_config:
+          parents: "{{ item }}"
+          commands:
+            - description "{{ item }}" of {{ output.ansible_facts.ansible_net_hostname }}"
+            - no shutdown
+        with_items:
+          - interface Loopback2
+          - interface Loopback3
+          - interface Loopback4
+      
+      # - name: OUTPUT INTERFACES
+      #   debug: 
+      #     msg: "{{ output.ansible_facts.ansible_network_resources.interfaces }}"
+
+      # - name: OUTPUT LOOPBACK INTERFACES
+      #   debug:
+      #     msg: item
+      #   loop: "{{ output.ansible_facts.ansible_network_resources.interfaces }}"
+      #   when: item is search("Loopback")
+
+      - name: OUTPUT LOOPBACK INTERFACES
+        debug:
+          msg: item
+        loop: "{{ output.ansible_facts.ansible_network_resources.interfaces }}"
+        when: item['name'] is search("Loopback")
+      
+      - name: SAVE TO START
+        ios_config:
+          save_when: modified
