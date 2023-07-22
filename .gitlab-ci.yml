@@ -7,5 +7,6 @@ test:
     - cisco-ansible
   script:
     - source ~/lcrosendo_projects_ansible/ios-xe-csr-recommended/.venv/bin/activate
+    - cd ~/lcrosendo_projects_ansible/ios-xe-csr-recommended/
     - ansible-playbook ~/lcrosendo_projects_ansible/ios-xe-csr-recommended/playbooks/show_facts.yaml
 
