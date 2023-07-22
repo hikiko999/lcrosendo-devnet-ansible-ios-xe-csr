@@ -1,9 +1,19 @@
 stages:
-  - setup
+  # - setup
   - run
 
-setup:
-  stage: setup
+# setup:
+#   stage: setup
+#   tags:
+#     - cisco-ansible
+#   script:
+#     - cd ./ios-xe-csr-recommended/
+#     - virtualenv .venv
+#     - source .venv/bin/activate
+#     - pip install -r requirements.txt
+
+test:
+  stage: run
   tags:
     - cisco-ansible
   script:
@@ -11,11 +21,5 @@ setup:
     - virtualenv .venv
     - source .venv/bin/activate
     - pip install -r requirements.txt
-
-test:
-  stage: run
-  tags:
-    - cisco-ansible
-  script:
     - ansible-playbook playbooks/show_facts.yaml
 
