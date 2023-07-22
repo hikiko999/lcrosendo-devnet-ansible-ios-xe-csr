@@ -6,6 +6,6 @@ test:
   tags:
     - cisco-ansible
   script:
-    - source ./ios-xe-csr-recommended/.venv/bin/activate
-    - ./ios-xe-csr-recommended/ansible-playbook playbooks/show_facts.yaml
+    - source ~/lcrosendo_projects_ansible/ios-xe-csr-recommended/.venv/bin/activate
+    - ~/lcrosendo_projects_ansible/ios-xe-csr-recommended/ansible-playbook playbooks/show_facts.yaml
 
