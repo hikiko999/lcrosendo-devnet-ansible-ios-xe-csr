@@ -7,7 +7,7 @@
     tasks:
       - name: IP ADDRESS COMMAND
         ios_config:
-          parents: interface GigabitEthernet1
+          parents: interface loopback 10
           commands: 
             - ip address 10.20.30.40 255.255.255.0
             - description ANSIBLE_TESTED
