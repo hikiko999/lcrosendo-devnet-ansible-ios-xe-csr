@@ -18,7 +18,7 @@ test:
   tags:
     - cisco-ansible
   script:
-    - apk add libssh
+    - apk add gcc
     - cd ./ios-xe-csr-recommended/
     - pip install -r requirements.txt
     - ansible-playbook playbooks/show_facts.yaml
