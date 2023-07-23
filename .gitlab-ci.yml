@@ -13,12 +13,12 @@ stages:
 #     - pip install -r requirements.txt
 
 test:
-  image: python:3.11.4-alpine3.18
+  # image: python:3.11.4-alpine3.18
+  image: python:3.11.2
   stage: run
   tags:
     - cisco-ansible
   script:
-    - apk add gcc
     - cd ./ios-xe-csr-recommended/
     - pip install -r requirements.txt
     - ansible-playbook playbooks/show_facts.yaml
