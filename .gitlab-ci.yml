@@ -25,6 +25,10 @@ test:
     - pip install -r requirements.txt
     - chmod 755 .
     - ansible-playbook playbooks/show_facts.yaml
+  artifacts:
+    name: "$CI_JOB_NAME"
+    paths:
+      - ./ios-xe-csr-recommended/outputs/*
   # script:
   #   - cd ./ios-xe-csr-recommended/
   #   - virtualenv .venv
