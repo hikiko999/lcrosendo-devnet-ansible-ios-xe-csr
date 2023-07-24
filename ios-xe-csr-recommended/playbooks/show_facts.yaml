@@ -12,3 +12,16 @@
       - name: VIEW DATA
         debug:
           var: output
+      
+      - name: CREATES OUTPUT FOLDER
+        file:
+          path: "outputs"
+          state: directory
+          mode: 0775
+        run_once: true
+
+      - name: SAVE DATA
+        copy:
+          content: "{{ output }}"
+          dest: "outputs/{{ inventory_hostname }}.txt"
+          mode: 0664
