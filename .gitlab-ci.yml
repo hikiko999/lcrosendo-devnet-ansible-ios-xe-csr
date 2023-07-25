@@ -13,8 +13,7 @@ stages:
 
 test:
   # image: python:3.11.4-alpine3.18
-  image: hikiko999/ansible_python:latest
-  stage: run
+  image: hikiko999/ansible_python:python-3.11.2
   tags:
     - cisco-ansible
   script: 
