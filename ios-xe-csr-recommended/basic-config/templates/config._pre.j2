@@ -1,0 +1,26 @@
+#jinja2: lstrip_blocks: True
+
+{# PRE CHECK #}
+
+Configuration changes to be done:
+"{{ configuration }}"
+
+{# CHANGE HOSTNAME #}
+{% if configuration['dev_hostname'] is defined %}
+"{{ ansible_net_hostname|default("UNDEFINED") }}" to be changed to: "{{ configuration['dev_hostname'] }}"
+{% endif %}
+
+{# CHANGE INTERFACE #}
+{% if configuration['dev_interfaces'] is defined %}
+    {% for intf in configuration['dev_interfaces'] %}
+        {% if intf.interface not in ansible_net_interfaces %}
+        "{{ intf.interface }}" to be added.
+        STATE: "{{ intf.state }}"
+        CONFIG: "{{ intf.config }}"
+        {% else %}
+        "{{ intf.interface }}" to be changed.
+        STATE: "{{ intf.state }}"
+        CONFIG: "{{ intf.config }}"
+        {% endif %}
+    {% endfor %}
+{% endif %}

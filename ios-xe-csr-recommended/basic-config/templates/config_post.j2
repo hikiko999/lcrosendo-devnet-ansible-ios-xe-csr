@@ -1,0 +1,15 @@
+#jinja2: lstrip_blocks: True
+
+{# POST CHECK #}
+Changes Done:
+{# CHANGE HOSTNAME #}
+{% if change_hostname is defined %}
+    "{{ change_hostname }}"
+{% endif %}
+{# CHANGE INTERFACE #}
+{% if change_int_config is defined %}
+    "{{ change_int_config }}"
+{% endif %}
+{% if change_int_state is defined %}
+    "{{ change_int_state }}"
+{% endif %}

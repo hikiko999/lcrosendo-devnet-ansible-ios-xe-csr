@@ -1,34 +1,15 @@
 stages:
-  - run
+  - Build
 
-# setup:
-#   stage: setup
-#   tags:
-#     - cisco-ansible
-#   script:
-#     - cd ./ios-xe-csr-recommended/
-#     - virtualenv .venv
-#     - source .venv/bin/activate
-#     - pip install -r requirements.txt
-
-test:
-  # image: python:3.11.4-alpine3.18
-  image: hikiko999/ansible_python:latest
-  stage: run
+Build:
+  stage: Build
+  image: hikiko999/ansible_python:python-3.11.2
   tags:
     - cisco-ansible
   script: 
     - cd ./ios-xe-csr-recommended/
     - chmod 755 .
-    - ansible-playbook playbooks/show_facts.yaml
+    - ansible-playbook playbooks/build.yml
   artifacts:
-    name: "$CI_JOB_NAME"
     paths:
       - ./ios-xe-csr-recommended/outputs/*
-  # script:
-  #   - cd ./ios-xe-csr-recommended/
-  #   - virtualenv .venv
-  #   - source .venv/bin/activate
-  #   - pip install -r requirements.txt
-  #   - ansible-playbook playbooks/show_facts.yaml
-

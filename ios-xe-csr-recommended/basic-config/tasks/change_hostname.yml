@@ -1,0 +1,5 @@
+- name: CHANGE HOSTNAME
+  cisco.ios.ios_hostname:
+    config:
+      hostname: "{{ configuration['dev_hostname'] }}"
+  register: change_hostname

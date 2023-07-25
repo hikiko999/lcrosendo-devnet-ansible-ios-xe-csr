@@ -1,0 +1,13 @@
+- name: CHANGE INTERFACE CONFIG
+  cisco.ios.ios_l3_interfaces:
+    config:
+      "{{ item.config }}"
+  loop: "{{ configuration['dev_interfaces'] }}"
+  register: change_int_config
+
+- name: CHANGE INTERFACE STATE
+  cisco.ios.ios_interfaces:
+    config:
+      "{{ item.state }}"
+  loop: "{{ configuration['dev_interfaces'] }}"
+  register: change_int_state

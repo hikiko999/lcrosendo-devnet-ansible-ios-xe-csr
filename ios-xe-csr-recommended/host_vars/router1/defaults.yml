@@ -1,2 +1,15 @@
 ---
 ansible_host: sandbox-iosxe-recomm-1.cisco.com
+
+configuration:
+  dev_hostname: ANSIBLE'D ROUTER 1 
+  dev_interfaces:
+    - interface: Loopback77
+      config:
+      - name: Loopback77
+        ipv4: 
+          - address: 10.20.30.40
+      state:
+      - name: Loopback77
+        description: ANSIBLE'D LOOPBACK 77
+        enabled: true 
