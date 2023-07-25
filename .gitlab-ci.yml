@@ -13,16 +13,12 @@ stages:
 
 test:
   # image: python:3.11.4-alpine3.18
-  image: python:3.11.2
+  image: hikiko999/ansible_python:latest
   stage: run
   tags:
     - cisco-ansible
-  script:
-    - pip install virtualenv
+  script: 
     - cd ./ios-xe-csr-recommended/
-    - virtualenv .venv
-    - source .venv/bin/activate
-    - pip install -r requirements.txt
     - chmod 755 .
     - ansible-playbook playbooks/show_facts.yaml
   artifacts:
