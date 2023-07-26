@@ -29,12 +29,12 @@
 - name: CHANGE HOSTNAME
   include_tasks:
     file: change_hostname.yml
-  when: "{{ configuration['dev_hostname'] }}" is defined
+  when: configuration['dev_hostname'] is defined
 
 - name: CHANGE INTERFACE
   include_tasks:
     file: change_interface.yml
-  when: "{{ configuration['dev_interfaces'] }}" is defined
+  when: configuration['dev_interfaces'] is defined
 
 - name: SAVE NEW CONFIG
   template:
