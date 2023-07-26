@@ -4,6 +4,7 @@
     connection: network_cli
     gather_facts: no
 
-    - name: BASIC CONFIG ROLE
-      include_role:
-        name: basic-config
+    tasks:
+      - name: BASIC CONFIG ROLE
+        include_role:
+          name: basic-config
