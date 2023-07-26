@@ -1,7 +1,5 @@
 #jinja2: lstrip_blocks: True
-
 {# PRE CHECK #}
-
 Configuration changes to be done:
 "{{ configuration }}"
 
@@ -13,7 +11,7 @@ Configuration changes to be done:
 {# CHANGE INTERFACE #}
 {% if configuration['dev_interfaces'] is defined %}
     {% for intf in configuration['dev_interfaces'] %}
-        {% if intf.interface not in ansible_net_interfaces %}
+        {% if intf.interface not in old_config.ansible_facts.ansible_net_interfaces %}
         "{{ intf.interface }}" to be added.
         STATE: "{{ intf.state }}"
         CONFIG: "{{ intf.config }}"

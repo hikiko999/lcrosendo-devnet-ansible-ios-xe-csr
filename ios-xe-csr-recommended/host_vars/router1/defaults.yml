@@ -8,7 +8,7 @@ configuration:
       config:
       - name: Loopback77
         ipv4: 
-          - address: 10.20.30.40
+          - address: 10.20.30.40 255.255.255.0
       state:
       - name: Loopback77
         description: ANSIBLE'D LOOPBACK 77

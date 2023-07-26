@@ -1,13 +1,14 @@
 ---
 # tasks file for basic-config
 - name: CREATE CONFIGURATION OUTPUT PATHS
-  set_facts:
-    old_config_path: "../outputs/{{ inventory_hostname }}/old/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
-    new_config_path: "../outputs/{{ inventory_hostname }}/new/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
+  set_fact:
+    old_config_path: "../outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
+    new_config_path: "../outputs/{{ inventory_hostname }}/new/{{ now() }}_{{ inventory_hostname }}"
 
 - name: GATHER OLD CONFIG
   cisco.ios.ios_facts:
-    gather_subset: config
+    gather_subset: 
+      - all
   register: old_config
 
 - name: SHOW OLD CONFIG
@@ -17,7 +18,7 @@
 - name: SAVE OLD CONFIG
   copy:
     content: "{{ old_config }}"
-    destination: "{{ old_config_path }}"
+    dest: "{{ old_config_path }}"
     mode: 0664
 
 - name: SHOW PRE CONFIG
@@ -37,7 +38,7 @@
   when: configuration['dev_interfaces'] is defined
 
 - name: SAVE NEW CONFIG
-  template:
-    src: "{{ lookup('template', 'templates/config_post.j2') }}"
+  copy:
+    content: "{{ lookup('template', 'templates/config_post.j2') }}"
     dest: "{{ new_config_path }}"
     mode: 0664
