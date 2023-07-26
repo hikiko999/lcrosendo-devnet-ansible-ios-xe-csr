@@ -34,7 +34,7 @@
 - name: CHANGE INTERFACE
   include_tasks:
     file: change_interface.yml
-  when: "{{ configuration['dev_interfaces] }}" is defined
+  when: "{{ configuration['dev_interfaces'] }}" is defined
 
 - name: SAVE NEW CONFIG
   template:
