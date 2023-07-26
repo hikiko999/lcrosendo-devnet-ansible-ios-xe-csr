@@ -1,5 +1,11 @@
 ---
 # tasks file for basic-config
+- name: CREATE OUTPUT FOLDER
+  file:
+    path: "../outputs"
+    state: directory
+    mode: 0775
+  run_once: true
 - name: CREATE CONFIGURATION OUTPUT PATHS
   set_fact:
     old_config_path: "../outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
@@ -37,8 +43,18 @@
     file: change_interface.yml
   when: configuration['dev_interfaces'] is defined
 
+- name: GATHER NEW CONFIG
+  cisco.ios.ios_facts:
+    gather_subset: 
+      - all
+  register: new_config
+
 - name: SAVE NEW CONFIG
   copy:
-    content: "{{ lookup('template', 'templates/config_post.j2') }}"
+    content: "{{ new_config }}"
     dest: "{{ new_config_path }}"
     mode: 0664
+
+- name: SHOW NEW CONFIG
+  debug:
+    msg: "{{ lookup('template', 'templates/config_post.j2') }}"
