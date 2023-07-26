@@ -42,14 +42,14 @@
 - name: CHANGE HOSTNAME
   include_tasks:
     file: change_hostname.yml
-  with_dict: "{{ configuration }}"
-  when: item['dev_hostname'] is defined
+  # with_dict: "{{ configuration }}"
+  when: dev_hostname in configuration.keys()
 
 - name: CHANGE INTERFACE
   include_tasks:
     file: change_interface.yml
-  with_dict: "{{ configuration }}"
-  when: item['dev_interfaces'] is defined
+  # with_dict: "{{ configuration }}"
+  when: dev_interfaces in configuration.keys()
 
 - name: GATHER NEW CONFIG
   cisco.ios.ios_facts:
