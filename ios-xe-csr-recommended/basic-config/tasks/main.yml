@@ -43,13 +43,13 @@
   include_tasks:
     file: change_hostname.yml
   # with_dict: "{{ configuration }}"
-  when: dev_hostname in configuration.keys()
+  when: "dev_hostname" in configuration.keys()
 
 - name: CHANGE INTERFACE
   include_tasks:
     file: change_interface.yml
   # with_dict: "{{ configuration }}"
-  when: dev_interfaces in configuration.keys()
+  when: "dev_interfaces" in configuration.keys()
 
 - name: GATHER NEW CONFIG
   cisco.ios.ios_facts:
