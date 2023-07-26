@@ -2,20 +2,20 @@
 # tasks file for basic-config
 - name: CREATE OUTPUT OLD CONFIG FOLDER
   file:
-    path: "../outputs/{{ inventory_hostname }}/old/"
+    path: "outputs/{{ inventory_hostname }}/old/"
     state: directory
     mode: 0775
   run_once: true
 - name: CREATE OUTPUT NEW CONFIG FOLDER
   file:
-    path: "../outputs/{{ inventory_hostname }}/new/"
+    path: "outputs/{{ inventory_hostname }}/new/"
     state: directory
     mode: 0775
   run_once: true
 - name: CREATE CONFIGURATION OUTPUT PATHS
   set_fact:
-    old_config_path: "../outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
-    new_config_path: "../outputs/{{ inventory_hostname }}/new/{{ now() }}_{{ inventory_hostname }}"
+    old_config_path: "outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
+    new_config_path: "outputs/{{ inventory_hostname }}/new/{{ now() }}_{{ inventory_hostname }}"
 
 - name: GATHER OLD CONFIG
   cisco.ios.ios_facts:
@@ -43,13 +43,13 @@
   include_tasks:
     file: change_hostname.yml
   # with_dict: "{{ configuration }}"
-  when: "dev_hostname" in configuration.keys()
+  when: "'dev_hostname' in configuration.keys()"
 
 - name: CHANGE INTERFACE
   include_tasks:
     file: change_interface.yml
   # with_dict: "{{ configuration }}"
-  when: "dev_interfaces" in configuration.keys()
+  when: "'dev_interfaces' in configuration.keys()"
 
 - name: GATHER NEW CONFIG
   cisco.ios.ios_facts:
