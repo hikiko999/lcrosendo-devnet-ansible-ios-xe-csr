@@ -2,8 +2,8 @@
 # tasks file for basic-config
 - name: CREATE CONFIGURATION OUTPUT PATHS
   set_facts:
-    old_config_path: "../outputs/{{ inventory_hostname}}/old/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
-    new_config_path: "../outputs/{{ inventory_hostname}}/new/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
+    old_config_path: "../outputs/{{ inventory_hostname }}/old/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
+    new_config_path: "../outputs/{{ inventory_hostname }}/new/{{ ansible_date_time.iso8601 }}_{{ inventory_hostname }}"
 
 - name: GATHER OLD CONFIG
   cisco.ios.ios_facts:
@@ -22,7 +22,7 @@
 
 - name: SHOW PRE CONFIG
   debug:
-    msg: "{{ lookup('template', 'templates/config_pre.j2')}}"
+    msg: "{{ lookup('template', 'templates/config_pre.j2') }}"
 
 # PROMPT HERE FOR CHANGE
 
@@ -38,6 +38,6 @@
 
 - name: SAVE NEW CONFIG
   template:
-    src: "{{ lookup('template', 'templates/config_post.j2')}}"
+    src: "{{ lookup('template', 'templates/config_post.j2') }}"
     dest: "{{ new_config_path }}"
     mode: 0664
