@@ -1,8 +1,14 @@
 ---
 # tasks file for basic-config
-- name: CREATE OUTPUT FOLDER
+- name: CREATE OUTPUT OLD CONFIG FOLDER
   file:
-    path: "../outputs"
+    path: "../outputs/{{ inventory_hostname }}/old/"
+    state: directory
+    mode: 0775
+  run_once: true
+- name: CREATE OUTPUT NEW CONFIG FOLDER
+  file:
+    path: "../outputs/{{ inventory_hostname }}/new/"
     state: directory
     mode: 0775
   run_once: true
