@@ -4,14 +4,14 @@ Changes Done:
 {# CHANGE HOSTNAME #}
 {% if change_hostname is defined %}
     HOSTNAME CHANGED:
-    "{{ change_hostname }}"
+    "{{ change_hostname | to_nice_yaml }}"
 {% endif %}
 {# CHANGE INTERFACE #}
 {% if change_int_config is defined %}
     INTERFACE CONFIG CHANGED:
-    "{{ change_int_config }}"
+    "{{ change_int_config | to_nice_yaml }}"
 {% endif %}
 {% if change_int_state is defined %}
     INTERFACE STATE CHANGED:
-    "{{ change_int_state }}"
+    "{{ change_int_state | to_nice_yaml }}"
 {% endif %}

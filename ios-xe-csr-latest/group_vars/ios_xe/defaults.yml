@@ -1,4 +1,0 @@
----
-ansible_user: $CISCO_USER
-ansible_network_os: cisco.ios.ios
-ansible_password: $CISCO_PASS

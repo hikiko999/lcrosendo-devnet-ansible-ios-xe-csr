@@ -25,11 +25,11 @@
 
 - name: SHOW OLD CONFIG
   debug:
-    msg: "{{ old_config }}"
+    msg: "{{ old_config | to_nice_yaml }}"
 
 - name: SAVE OLD CONFIG
   copy:
-    content: "{{ old_config }}"
+    content: "{{ old_config | to_nice_yaml }}"
     dest: "{{ old_config_path }}"
     mode: 0664
 
@@ -59,7 +59,7 @@
 
 - name: SAVE NEW CONFIG
   copy:
-    content: "{{ new_config }}"
+    content: "{{ new_config | to_nice_yaml }}"
     dest: "{{ new_config_path }}"
     mode: 0664
 

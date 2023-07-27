@@ -1,5 +1,0 @@
-Collection        Version
------------------ -------
-ansible.netcommon 5.1.2  
-ansible.utils     2.10.3 
-cisco.ios         5.0.0  
