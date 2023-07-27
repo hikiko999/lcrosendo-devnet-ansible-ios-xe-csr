@@ -7,9 +7,8 @@ Build:
   tags:
     - cisco-ansible
   script: 
-    - cd ./ios-xe-csr-recommended/
     - chmod 755 .
     - ansible-playbook playbooks/build.yml
   artifacts:
     paths:
-      - ./ios-xe-csr-recommended/outputs/*
+      - outputs/*
