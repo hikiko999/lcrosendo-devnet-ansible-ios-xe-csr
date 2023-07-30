@@ -1,68 +1,85 @@
 ---
 # tasks file for basic-config
-- name: CREATE OUTPUT OLD CONFIG FOLDER
-  file:
-    path: "outputs/{{ inventory_hostname }}/old/"
-    state: directory
-    mode: 0775
-  run_once: true
-- name: CREATE OUTPUT NEW CONFIG FOLDER
-  file:
-    path: "outputs/{{ inventory_hostname }}/new/"
-    state: directory
-    mode: 0775
-  run_once: true
-- name: CREATE CONFIGURATION OUTPUT PATHS
-  set_fact:
-    old_config_path: "outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
-    new_config_path: "outputs/{{ inventory_hostname }}/new/{{ now() }}_{{ inventory_hostname }}"
+- name: CONFIG SETUP
+  block:
+    - name: CREATE OUTPUT OLD CONFIG FOLDER
+      file:
+        path: "outputs/{{ inventory_hostname }}/old/"
+        state: directory
+        mode: 0775
+      run_once: true
+    - name: CREATE OUTPUT NEW CONFIG FOLDER
+      file:
+        path: "outputs/{{ inventory_hostname }}/new/"
+        state: directory
+        mode: 0775
+      run_once: true
+    - name: CREATE CONFIGURATION OUTPUT PATHS
+      set_fact:
+        old_config_path: "outputs/{{ inventory_hostname }}/old/{{ now() }}_{{ inventory_hostname }}"
+        new_config_path: "outputs/{{ inventory_hostname }}/new/{{ now() }}_{{ inventory_hostname }}"
 
-- name: GATHER OLD CONFIG
-  cisco.ios.ios_facts:
-    gather_subset: 
-      - all
-  register: old_config
+    - name: GATHER OLD CONFIG
+      cisco.ios.ios_facts:
+        gather_subset: 
+          - all
+      register: old_config
 
-- name: SHOW OLD CONFIG
-  debug:
-    msg: "{{ old_config | to_nice_yaml }}"
+    - name: SHOW OLD CONFIG
+      debug:
+        msg: "{{ old_config | to_nice_yaml }}"
 
-- name: SAVE OLD CONFIG
-  copy:
-    content: "{{ old_config | to_nice_yaml }}"
-    dest: "{{ old_config_path }}"
-    mode: 0664
+    - name: SAVE OLD CONFIG
+      copy:
+        content: "{{ old_config | to_nice_yaml }}"
+        dest: "{{ old_config_path }}"
+        mode: 0664
 
-- name: SHOW PRE CONFIG
-  debug:
-    msg: "{{ lookup('template', 'templates/config_pre.j2') }}"
+    - name: SHOW PRE CONFIG
+      debug:
+        msg: "{{ lookup('template', 'templates/config_pre.j2') }}"
 
-# PROMPT HERE FOR CHANGE
+- name: CHANGE CONFIGURATION
+  block:
+    - name: CHANGE HOSTNAME
+      include_tasks:
+        file: change_hostname.yml
+      # with_dict: "{{ configuration }}"
+      when: "'dev_hostname' in configuration.keys()"
 
-- name: CHANGE HOSTNAME
-  include_tasks:
-    file: change_hostname.yml
-  # with_dict: "{{ configuration }}"
-  when: "'dev_hostname' in configuration.keys()"
+    - name: CHANGE INTERFACE
+      include_tasks:
+        file: change_interface.yml
+      # with_dict: "{{ configuration }}"
+      when: "'dev_interfaces' in configuration.keys()"
 
-- name: CHANGE INTERFACE
-  include_tasks:
-    file: change_interface.yml
-  # with_dict: "{{ configuration }}"
-  when: "'dev_interfaces' in configuration.keys()"
+    - name: GATHER NEW CONFIG
+      cisco.ios.ios_facts:
+        gather_subset: 
+          - all
+      register: new_config
 
-- name: GATHER NEW CONFIG
-  cisco.ios.ios_facts:
-    gather_subset: 
-      - all
-  register: new_config
+    - name: CONFIG DIFFERENCE
+      ansible.utils.fact_diff:
+        before: "{{ old_config | to_nice_yaml }}"
+        after: "{{ new_config | to_nice_yaml }}"
+      register: new_config_diff
 
-- name: SAVE NEW CONFIG
-  copy:
-    content: "{{ new_config | to_nice_yaml }}"
-    dest: "{{ new_config_path }}"
-    mode: 0664
+    - name: SAVE NEW CONFIG
+      copy:
+        content: "{{ new_config | to_nice_yaml }}"
+        dest: "{{ new_config_path }}"
+        mode: 0664
 
-- name: SHOW NEW CONFIG
-  debug:
-    msg: "{{ lookup('template', 'templates/config_post.j2') }}"
+    - name: SAVE NEW CONFIG DIFF
+      copy:
+        content: "{{ new_config_diff | to_nice_yaml }}"
+        dest: "{{ new_config_path }}.diff"
+        mode: 0664
+
+    - name: SHOW NEW CONFIG DIFF
+      debug:
+        msg: "{{ item }}"
+      loop:
+      - "{{ lookup('template', 'templates/config_post.j2') }}"
+      - "{{ new_config_diff | to_nice_yaml }}"

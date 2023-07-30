@@ -5,9 +5,20 @@
   loop: "{{ configuration['dev_interfaces'] }}"
   register: change_int_config
 
+# - name: CHANGE INTERFACE CONFIG DIFF
+#   facts_diff:
+#     before: "{{  }}"
+#       "{{ item.config }}"
+#   loop: "{{ configuration['dev_interfaces'] }}"
+#   register: change_int_config
+
+# l3_interfaces:
+# state: ???
+
 - name: CHANGE INTERFACE STATE
   cisco.ios.ios_interfaces:
     config:
       "{{ item.state }}"
   loop: "{{ configuration['dev_interfaces'] }}"
   register: change_int_state
+

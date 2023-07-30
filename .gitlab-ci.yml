@@ -1,5 +1,6 @@
 stages:
   - Build
+  - Test
 
 Build:
   stage: Build
@@ -12,3 +13,8 @@ Build:
   artifacts:
     paths:
       - outputs/*
+
+Test:
+  stage: Test
+  trigger:
+    project: lcrosendo/devnet-pyats-ios-xe-csr
