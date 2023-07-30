@@ -16,5 +16,8 @@ Build:
 
 Test:
   stage: Test
+  variables:
+    DEST_IP_VAR: 5.10.15.20,10.20.30.40
   trigger:
     project: lcrosendo/devnet-pyats-ios-xe-csr
+    strategy: depend
