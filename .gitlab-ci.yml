@@ -4,6 +4,7 @@ stages:
 
 Build:
   stage: Build
+  environment: Building
   image: hikiko999/ansible_python:python-3.11.2
   tags:
     - cisco-ansible
