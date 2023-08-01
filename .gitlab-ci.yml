@@ -7,7 +7,7 @@ Build:
   environment: Building
   image: hikiko999/ansible_python:python-3.11.2
   tags:
-    - cisco-ansible
+    - docker-ansible
   script: 
     - chmod 755 .
     - ansible-playbook playbooks/build.yml
